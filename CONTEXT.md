@@ -138,6 +138,23 @@ Una versión anterior aplicaba erróneamente el 63% como diámetro interior úni
 - Clases custom prefijadas con `kawaii-` en `styles.css`.
 - Emojis como iconografía (sin librería de iconos externa).
 
+### Diseño responsivo
+
+Enfoque **mobile-first** en `styles.css` con tres breakpoints:
+
+| Breakpoint | Rango        | Comportamiento principal |
+|------------|--------------|--------------------------|
+| Móvil      | `< 768px`    | Layout compacto para minimizar scroll. Cabecera horizontal (logo + título en fila). Selectores e inputs en **2 columnas** (`col-6`). Espaciados, tipografías y paddings reducidos. |
+| Tablet     | `768–991px`  | Cabecera horizontal. Contenedor centrado (`max-width: 640px`). Tamaños intermedios. |
+| Escritorio | `≥ 992px`    | Cabecera vertical centrada (logo encima del título). Espaciado amplio original. |
+
+Detalles clave:
+- `.app-main` usa `min-height: 100dvh` + flexbox; el footer se ancla al fondo con `margin-top: auto`.
+- Variables CSS `--app-gap` controlan márgenes entre secciones del formulario.
+- Media query `@media (max-height: 700px)` en móvil reduce aún más cabecera y espaciados en pantallas bajas (p. ej. iPhone SE).
+- Los campos dinámicos en `app.js` usan `col-6` para mostrar siempre diámetro y profundidad en la misma fila.
+- Las fórmulas van en `<details>` colapsado por defecto para no ocupar espacio vertical.
+
 ## Cómo ejecutar / desplegar
 
 Abrir `index.html` directamente en el navegador o servir la carpeta con cualquier servidor estático.

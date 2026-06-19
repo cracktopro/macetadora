@@ -57,7 +57,7 @@
 
   function createInputField(id, label, icon, placeholder) {
     return `
-      <div class="col-sm-6 field-row">
+      <div class="col-6 field-row">
         <label for="${id}" class="form-label kawaii-label">
           <span class="label-icon">${icon}</span> ${label}
         </label>

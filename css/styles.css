@@ -9,6 +9,8 @@
   --kawaii-text-light: #8a7a82;
   --kawaii-shadow: rgba(255, 143, 171, 0.18);
   --kawaii-radius: 1.25rem;
+  --app-gap: 0.65rem;
+  --app-gap-md: 1rem;
 }
 
 * {
@@ -19,8 +21,48 @@ body {
   font-family: 'Nunito', sans-serif;
   color: var(--kawaii-text);
   min-height: 100vh;
+  min-height: 100dvh;
   position: relative;
   overflow-x: hidden;
+}
+
+.app-main {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  padding-top: 0.75rem;
+  padding-bottom: 0.5rem;
+  max-width: 720px;
+}
+
+.app-header {
+  flex-shrink: 0;
+}
+
+.app-header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  max-width: 100%;
+}
+
+.app-header-text {
+  text-align: left;
+}
+
+.app-footer {
+  flex-shrink: 0;
+  margin-top: auto;
+  padding-top: 0.5rem;
+}
+
+.form-section {
+  margin-bottom: var(--app-gap);
+}
+
+.form-section--hints {
+  margin-bottom: 0;
 }
 
 .page-bg {
@@ -34,39 +76,278 @@ body {
     linear-gradient(160deg, #fff8f0 0%, #ffeef3 50%, #f0faf4 100%);
 }
 
+.footer-text {
+  font-size: 0.72rem;
+  color: var(--kawaii-text-light);
+  font-weight: 600;
+}
+
+/* ── Móvil compacto (por defecto, hasta 767px) ── */
 .logo-badge {
-  width: 72px;
-  height: 72px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2.25rem;
   background: linear-gradient(135deg, var(--kawaii-pink) 0%, var(--kawaii-mint) 100%);
   border-radius: 50%;
-  box-shadow: 0 8px 24px var(--kawaii-shadow);
+  box-shadow: 0 4px 16px var(--kawaii-shadow);
   animation: float 3s ease-in-out infinite;
 }
 
 @keyframes float {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-6px); }
+  50% { transform: translateY(-4px); }
+}
+
+.logo-img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  display: block;
 }
 
 .app-title {
   font-weight: 800;
-  font-size: clamp(2rem, 5vw, 2.75rem);
+  font-size: 1.35rem;
   background: linear-gradient(135deg, var(--kawaii-pink-dark), var(--kawaii-mint-dark));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   letter-spacing: -0.02em;
-  margin-bottom: 0.25rem;
+  margin-bottom: 0;
+  line-height: 1.15;
 }
 
 .app-subtitle {
   color: var(--kawaii-text-light);
-  font-size: 1.05rem;
+  font-size: 0.72rem;
   font-weight: 600;
+  margin-bottom: 0;
+  line-height: 1.25;
+}
+
+#inputFields .row {
+  --bs-gutter-x: 0.5rem;
+  --bs-gutter-y: 0.5rem;
+}
+
+/* ── Tablet (768px – 991px) ── */
+@media (min-width: 768px) {
+  :root {
+    --app-gap: 0.85rem;
+  }
+
+  .app-main {
+    padding-top: 1.25rem;
+    padding-bottom: 1rem;
+    max-width: 640px;
+  }
+
+  .app-header-inner {
+    gap: 1rem;
+  }
+
+  .logo-badge {
+    width: 56px;
+    height: 56px;
+  }
+
+  .logo-img {
+    width: 40px;
+    height: 40px;
+  }
+
+  .app-title {
+    font-size: 1.75rem;
+  }
+
+  .app-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .kawaii-card .card-body {
+    padding: 1.25rem;
+  }
+
+  .kawaii-label {
+    font-size: 0.85rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .kawaii-select,
+  .kawaii-input {
+    padding: 0.55rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .placeholder-hint {
+    padding: 0.85rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .pot-info-badge {
+    font-size: 0.72rem;
+    width: auto;
+    display: inline-flex;
+  }
+
+  .btn-kawaii {
+    padding: 0.7rem 1.25rem;
+    font-size: 1rem;
+  }
+
+  .result-inner {
+    padding: 1rem 1.15rem;
+  }
+
+  .result-icon {
+    font-size: 1.6rem;
+  }
+
+  .result-label {
+    font-size: 0.85rem;
+  }
+
+  .result-detail {
+    font-size: 0.78rem;
+  }
+
+  .kawaii-details {
+    display: inline-block;
+    width: auto;
+    padding: 0.55rem 1rem;
+    font-size: 0.85rem;
+  }
+
+  .footer-text {
+    font-size: 0.8rem;
+  }
+
+  #inputFields .row {
+    --bs-gutter-x: 0.75rem;
+    --bs-gutter-y: 0.75rem;
+  }
+}
+
+/* ── Escritorio (992px+) ── */
+@media (min-width: 992px) {
+  :root {
+    --app-gap: 1rem;
+  }
+
+  .app-main {
+    padding-top: 2rem;
+    padding-bottom: 1.5rem;
+    max-width: 1140px;
+  }
+
+  .app-header {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .app-header-inner {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .app-header-text {
+    text-align: center;
+  }
+
+  .logo-badge {
+    width: 72px;
+    height: 72px;
+  }
+
+  .logo-img {
+    width: 52px;
+    height: 52px;
+  }
+
+  .app-title {
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    margin-bottom: 0.25rem;
+  }
+
+  .app-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .kawaii-card .card-body {
+    padding: 2rem 2.5rem;
+  }
+
+  .kawaii-label {
+    font-size: 0.9rem;
+    gap: 0.35rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .kawaii-select,
+  .kawaii-input {
+    border-radius: 0.85rem;
+    padding: 0.65rem 1rem;
+    font-size: 1rem;
+  }
+
+  .placeholder-hint {
+    padding: 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  .pot-info-badge {
+    font-size: 0.78rem;
+    padding: 0.35rem 0.75rem;
+    margin-top: 0.25rem;
+  }
+
+  .btn-kawaii {
+    border-radius: 0.85rem;
+    padding: 0.85rem 1.5rem;
+    font-size: 1.05rem;
+    box-shadow: 0 6px 20px rgba(255, 107, 157, 0.35);
+  }
+
+  .result-inner {
+    padding: 1.75rem 1.5rem;
+  }
+
+  .result-icon {
+    font-size: 2rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .result-label {
+    font-size: 0.95rem;
+  }
+
+  .result-value {
+    font-size: clamp(2rem, 6vw, 2.75rem);
+    line-height: 1.1;
+  }
+
+  .result-unit {
+    font-size: 1.25rem;
+  }
+
+  .result-detail {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .kawaii-details {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.9rem;
+  }
+
+  .footer-text {
+    font-size: 0.85rem;
+  }
+
+  .app-footer {
+    padding-top: 1.25rem;
+  }
 }
 
 .kawaii-card {
@@ -76,25 +357,33 @@ body {
   backdrop-filter: blur(12px);
 }
 
+.kawaii-card .card-body {
+  padding: 0.85rem;
+}
+
 .kawaii-label {
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 0.78rem;
   color: var(--kawaii-text);
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.25rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
 }
 
 .label-icon {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
+  flex-shrink: 0;
 }
 
 .kawaii-select,
 .kawaii-input {
   border: 2px solid rgba(184, 232, 212, 0.6);
-  border-radius: 0.85rem;
-  padding: 0.65rem 1rem;
+  border-radius: 0.75rem;
+  padding: 0.45rem 0.65rem;
   font-weight: 600;
+  font-size: 0.875rem;
   color: var(--kawaii-text);
   background-color: #fff;
   transition: border-color 0.2s, box-shadow 0.2s;
@@ -115,40 +404,35 @@ body {
   opacity: 1;
 }
 
-.logo-img {
-  width: 52px;
-  height: 52px;
-  object-fit: contain;
-  display: block;
-}
-
 .kawaii-input-group {
   position: relative;
 }
 
 .kawaii-input-group .input-suffix {
   position: absolute;
-  right: 1rem;
+  right: 0.65rem;
   top: 50%;
   transform: translateY(-50%);
   color: var(--kawaii-text-light);
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   pointer-events: none;
 }
 
 .kawaii-input-group .kawaii-input {
-  padding-right: 3rem;
+  padding-right: 2.25rem;
 }
 
 .placeholder-hint {
   display: flex;
   align-items: center;
-  gap: 0.4rem;
-  padding: 1.25rem;
+  gap: 0.35rem;
+  padding: 0.65rem 0.75rem;
   background: rgba(232, 213, 242, 0.2);
-  border-radius: 0.85rem;
+  border-radius: 0.75rem;
   border: 2px dashed rgba(184, 232, 212, 0.5);
+  font-size: 0.8rem;
+  line-height: 1.3;
 }
 
 .hint-icon {
@@ -156,28 +440,31 @@ body {
 }
 
 .pot-info-badge {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.35rem;
-  font-size: 0.78rem;
+  gap: 0.25rem;
+  font-size: 0.68rem;
   font-weight: 700;
   color: var(--kawaii-text-light);
   background: rgba(255, 183, 197, 0.15);
-  padding: 0.35rem 0.75rem;
+  padding: 0.3rem 0.55rem;
   border-radius: 2rem;
-  margin-top: 0.5rem;
+  margin-top: 0;
+  line-height: 1.25;
+  width: 100%;
 }
 
 .btn-kawaii {
   background: linear-gradient(135deg, var(--kawaii-pink-dark) 0%, #ff6b9d 100%);
   border: none;
-  border-radius: 0.85rem;
+  border-radius: 0.75rem;
   color: #fff;
   font-weight: 800;
+  font-size: 0.95rem;
   letter-spacing: 0.02em;
-  padding: 0.85rem 1.5rem;
+  padding: 0.6rem 1rem;
   transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
-  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.35);
+  box-shadow: 0 4px 16px rgba(255, 107, 157, 0.3);
 }
 
 .btn-kawaii:hover:not(:disabled) {
@@ -219,40 +506,44 @@ body {
 .result-inner {
   background: linear-gradient(135deg, rgba(184, 232, 212, 0.35) 0%, rgba(255, 183, 197, 0.25) 100%);
   border-radius: var(--kawaii-radius);
-  padding: 1.75rem 1.5rem;
+  padding: 0.75rem 0.85rem;
   border: 2px solid rgba(125, 206, 160, 0.4);
 }
 
 .result-icon {
-  font-size: 2rem;
-  margin-bottom: 0.25rem;
+  font-size: 1.35rem;
+  margin-bottom: 0.1rem;
+  line-height: 1;
 }
 
 .result-label {
   font-weight: 700;
   color: var(--kawaii-text-light);
-  font-size: 0.95rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.15rem !important;
 }
 
 .result-value {
-  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-size: clamp(1.5rem, 5vw, 2.75rem);
   font-weight: 800;
   color: var(--kawaii-mint-dark);
-  line-height: 1.1;
+  line-height: 1;
+  margin-bottom: 0.35rem !important;
 }
 
 .result-unit {
-  font-size: 1.25rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: var(--kawaii-text-light);
-  margin-left: 0.25rem;
+  margin-left: 0.2rem;
 }
 
 .result-detail {
   max-width: 420px;
   margin-left: auto;
   margin-right: auto;
-  line-height: 1.5;
+  line-height: 1.35;
+  font-size: 0.72rem;
 }
 
 .formula-hints {
@@ -260,12 +551,13 @@ body {
 }
 
 .kawaii-details {
-  display: inline-block;
+  display: block;
+  width: 100%;
   background: rgba(255, 255, 255, 0.7);
   border: 2px solid rgba(184, 232, 212, 0.4);
-  border-radius: 0.85rem;
-  padding: 0.75rem 1.25rem;
-  font-size: 0.9rem;
+  border-radius: 0.75rem;
+  padding: 0.45rem 0.75rem;
+  font-size: 0.78rem;
   font-weight: 600;
   color: var(--kawaii-text-light);
   cursor: pointer;
@@ -290,12 +582,6 @@ body {
   padding-left: 1.25rem;
 }
 
-.footer-text {
-  font-size: 0.85rem;
-  color: var(--kawaii-text-light);
-  font-weight: 600;
-}
-
 .field-row {
   animation: fadeSlide 0.3s ease;
 }
@@ -311,8 +597,43 @@ body {
   }
 }
 
-@media (max-width: 576px) {
-  .kawaii-card .card-body {
-    padding: 1.5rem !important;
+/* Pantallas muy bajas: reducir aún más el header */
+@media (max-height: 700px) and (max-width: 767.98px) {
+  .app-main {
+    padding-top: 0.4rem;
+  }
+
+  .app-header {
+    margin-bottom: 0.5rem !important;
+  }
+
+  .logo-badge {
+    width: 40px;
+    height: 40px;
+  }
+
+  .logo-img {
+    width: 28px;
+    height: 28px;
+  }
+
+  .app-title {
+    font-size: 1.2rem;
+  }
+
+  .app-subtitle {
+    font-size: 0.65rem;
+  }
+
+  .form-section {
+    margin-bottom: 0.45rem;
+  }
+
+  .result-inner {
+    padding: 0.55rem 0.65rem;
+  }
+
+  .app-footer {
+    padding-top: 0.25rem;
   }
 }

@@ -12,24 +12,28 @@
 <body>
   <div class="page-bg"></div>
 
-  <main class="container py-4 py-md-5">
-    <header class="text-center mb-4 mb-md-5">
-      <div class="logo-badge mx-auto mb-3" aria-hidden="true">
-        <img src="favicon.png" alt="" class="logo-img" width="52" height="52">
+  <main class="container app-main">
+    <header class="app-header text-center mb-2 mb-md-4">
+      <div class="app-header-inner mx-auto">
+        <div class="logo-badge flex-shrink-0" aria-hidden="true">
+          <img src="favicon.png" alt="" class="logo-img" width="52" height="52">
+        </div>
+        <div class="app-header-text">
+          <h1 class="app-title">Macetadora</h1>
+          <p class="app-subtitle">Calcula cuántos litros de tierra caben en tu maceta</p>
+        </div>
       </div>
-      <h1 class="app-title">Macetadora</h1>
-      <p class="app-subtitle">Calcula cuántos litros de tierra caben en tu maceta</p>
     </header>
 
-    <div class="row justify-content-center">
+    <div class="row justify-content-center g-0">
       <div class="col-lg-8 col-xl-7">
         <div class="card kawaii-card shadow-sm">
-          <div class="card-body p-4 p-md-5">
+          <div class="card-body">
 
             <form id="calcForm" novalidate>
               <!-- Selectores -->
-              <div class="row g-3 mb-4">
-                <div class="col-md-6">
+              <div class="row g-2 g-md-3 form-section">
+                <div class="col-6">
                   <label for="shapeSelect" class="form-label kawaii-label">
                     <span class="label-icon">📐</span> Forma del contenedor
                   </label>
@@ -40,7 +44,7 @@
                     <option value="truncated-cone">Cono truncado</option>
                   </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-6">
                   <label for="potTypeSelect" class="form-label kawaii-label">
                     <span class="label-icon">🏺</span> Tipo de maceta
                   </label>
@@ -53,22 +57,22 @@
               </div>
 
               <!-- Campos dinámicos -->
-              <div id="inputFields" class="mb-4">
+              <div id="inputFields" class="form-section form-section--inputs">
                 <p class="text-muted small mb-0 placeholder-hint">
                   <span class="hint-icon">✨</span> Selecciona forma y tipo de maceta para ver los campos
                 </p>
               </div>
 
               <!-- Botón calcular -->
-              <div class="d-grid">
-                <button type="submit" class="btn btn-kawaii btn-lg" id="calcBtn" disabled>
+              <div class="d-grid form-section form-section--action">
+                <button type="submit" class="btn btn-kawaii" id="calcBtn" disabled>
                   <span class="btn-icon">🌱</span> Calcular capacidad
                 </button>
               </div>
             </form>
 
             <!-- Resultado -->
-            <div id="resultPanel" class="result-panel mt-4 d-none" role="status" aria-live="polite">
+            <div id="resultPanel" class="result-panel form-section d-none" role="status" aria-live="polite">
               <div class="result-inner text-center">
                 <div class="result-icon" aria-hidden="true">💧</div>
                 <p class="result-label mb-1">Capacidad de tierra</p>
@@ -84,7 +88,7 @@
         </div>
 
         <!-- Info de fórmulas -->
-        <div class="formula-hints mt-4">
+        <div class="formula-hints form-section form-section--hints">
           <details class="kawaii-details">
             <summary>📋 Fórmulas utilizadas</summary>
             <ul class="small mb-0 mt-2">
@@ -97,7 +101,7 @@
       </div>
     </div>
 
-    <footer class="text-center mt-5">
+    <footer class="app-footer text-center">
       <p class="footer-text mb-0">Hecho con cariño para tus plantitas 🌸</p>
     </footer>
   </main>
