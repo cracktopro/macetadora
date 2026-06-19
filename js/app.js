@@ -91,7 +91,6 @@
     }
 
     let fieldsHtml = '<div class="row g-3 field-row">';
-    let potInfo = '';
 
     if (shape === 'rectangular') {
       fieldsHtml += createInputField('length', 'Longitud', '📏', 'Ej: 60');
@@ -100,56 +99,12 @@
     } else if (shape === 'truncated-cone') {
       fieldsHtml += createInputField('diameter', 'Diámetro superior', '⭕', 'Ej: 70');
       fieldsHtml += createInputField('height', 'Profundidad', '⬇️', 'Ej: 51,5');
-
-      const config = POT_TYPES[potType];
-      const extPct = config.exteriorFactor * 100;
-      const intPct = config.interiorFactor * 100;
-
-      if (potType === 'terracota') {
-        potInfo = `
-          <div class="col-12 field-row">
-            <span class="pot-info-badge">
-              🏺 Sup. real: ${extPct}% del introducido · Inf.: ${intPct}% del superior real
-            </span>
-          </div>
-        `;
-      } else {
-        potInfo = `
-          <div class="col-12 field-row">
-            <span class="pot-info-badge">
-              ✨ Inf.: ${intPct}% del diámetro superior introducido
-            </span>
-          </div>
-        `;
-      }
     } else {
       fieldsHtml += createInputField('diameter', 'Diámetro exterior', '⭕', 'Ej: 40');
       fieldsHtml += createInputField('height', 'Altura', '⬇️', 'Ej: 35');
-
-      const config = POT_TYPES[potType];
-      const extPct = config.exteriorFactor * 100;
-      const intPct = config.interiorFactor * 100;
-
-      if (potType === 'terracota') {
-        potInfo = `
-          <div class="col-12 field-row">
-            <span class="pot-info-badge">
-              🏺 Diámetro real: ${extPct}% del introducido · Interior: ${intPct}% del real
-            </span>
-          </div>
-        `;
-      } else {
-        potInfo = `
-          <div class="col-12 field-row">
-            <span class="pot-info-badge">
-              ✨ Interior: ${intPct}% del diámetro exterior introducido
-            </span>
-          </div>
-        `;
-      }
     }
 
-    fieldsHtml += potInfo + '</div>';
+    fieldsHtml += '</div>';
     inputFields.innerHTML = fieldsHtml;
   }
 

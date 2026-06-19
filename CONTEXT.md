@@ -134,6 +134,7 @@ Una versión anterior aplicaba erróneamente el 63% como diámetro interior úni
 - **Bootstrap 5.3.3** vía jsDelivr CDN (grid, formularios, utilidades).
 - **Fuente:** Nunito (Google Fonts).
 - **Favicon / logo:** `favicon.png` en la raíz; usado como `<link rel="icon">` y como imagen dentro de `.logo-badge` (animación `float`).
+- **Título animado:** `.app-title` usa degradado desplazable (`titleGradientShift`) de rosa a menta en bucle continuo hacia la derecha.
 - **Tema kawaii:** pasteles (rosa `#ffb7c5`, menta `#b8e8d4`), bordes redondeados, animación flotante en logo, gradientes suaves.
 - Clases custom prefijadas con `kawaii-` en `styles.css`.
 - Emojis como iconografía (sin librería de iconos externa).
@@ -163,7 +164,7 @@ Para GitHub Pages: publicar la raíz del repo (contiene `index.html`).
 
 ## Puntos de extensión habituales
 
-1. **Nuevo tipo de maceta:** añadir entrada en `POT_TYPES` y actualizar badges en `renderInputFields()`.
+1. **Nuevo tipo de maceta:** añadir entrada en `POT_TYPES`; actualizar `syncShapeLock()` si el nuevo tipo también exige cono truncado.
 2. **Nueva forma:** nuevo `case` en `calculate()` y rama en `renderInputFields()`.
 3. **Entrada manual de diámetro inferior (cono):** añadir campo opcional; si tiene valor, usarlo en lugar de `getConeDiameters()`.
 4. **Ajustes rectangulares por tipo:** hoy no existen; implementar en `calculateRectangular()` si se requieren.

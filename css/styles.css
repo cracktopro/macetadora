@@ -110,13 +110,38 @@ body {
 .app-title {
   font-weight: 800;
   font-size: 1.35rem;
-  background: linear-gradient(135deg, var(--kawaii-pink-dark), var(--kawaii-mint-dark));
+  background: linear-gradient(
+    90deg,
+    var(--kawaii-pink-dark) 0%,
+    #ff6b9d 20%,
+    var(--kawaii-mint-dark) 50%,
+    #7dcea0 80%,
+    var(--kawaii-pink-dark) 100%
+  );
+  background-size: 200% auto;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  animation: titleGradientShift 4s linear infinite;
   letter-spacing: -0.02em;
   margin-bottom: 0;
   line-height: 1.15;
+}
+
+@keyframes titleGradientShift {
+  0% { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .app-title {
+    animation: none;
+    background-position: 0% center;
+  }
+
+  .logo-badge {
+    animation: none;
+  }
 }
 
 .app-subtitle {
@@ -184,12 +209,6 @@ body {
   .placeholder-hint {
     padding: 0.85rem 1rem;
     font-size: 0.85rem;
-  }
-
-  .pot-info-badge {
-    font-size: 0.72rem;
-    width: auto;
-    display: inline-flex;
   }
 
   .btn-kawaii {
@@ -294,12 +313,6 @@ body {
   .placeholder-hint {
     padding: 1.25rem;
     font-size: 0.875rem;
-  }
-
-  .pot-info-badge {
-    font-size: 0.78rem;
-    padding: 0.35rem 0.75rem;
-    margin-top: 0.25rem;
   }
 
   .btn-kawaii {
@@ -437,21 +450,6 @@ body {
 
 .hint-icon {
   font-size: 1.1rem;
-}
-
-.pot-info-badge {
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.68rem;
-  font-weight: 700;
-  color: var(--kawaii-text-light);
-  background: rgba(255, 183, 197, 0.15);
-  padding: 0.3rem 0.55rem;
-  border-radius: 2rem;
-  margin-top: 0;
-  line-height: 1.25;
-  width: 100%;
 }
 
 .btn-kawaii {
