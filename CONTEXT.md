@@ -15,6 +15,7 @@ Documento de referencia para entender, modificar o extender la aplicación sin r
 ```
 Macetadora/
 ├── index.html       # UI principal, selectores, formulario, panel de resultado
+├── favicon.png      # Icono de la app (favicon + logo animado en cabecera)
 ├── css/
 │   └── styles.css   # Estilos kawaii/minimalistas (variables CSS, animaciones)
 ├── js/
@@ -25,10 +26,11 @@ Macetadora/
 ## Flujo de la aplicación
 
 1. El usuario elige **forma del contenedor** y **tipo de maceta** (ambos obligatorios; valor por defecto: "No por defecto").
-2. Al seleccionar ambos, se renderizan campos de entrada dinámicos según la forma.
-3. El botón "Calcular capacidad" permanece deshabilitado hasta que ambos selectores tienen valor.
-4. Al enviar el formulario, `calculate()` en `app.js` aplica la fórmula correspondiente.
-5. El resultado muestra litros formateados y un detalle con las dimensiones efectivas usadas.
+2. **Al seleccionar un tipo de maceta** (Terracota o Plasticforte), la forma se fija automáticamente en **Cono truncado** y el selector de forma queda **bloqueado** (`syncShapeLock()` en `app.js`). Los tipos actuales solo usan esa geometría.
+3. Al seleccionar ambos, se renderizan campos de entrada dinámicos según la forma.
+4. El botón "Calcular capacidad" permanece deshabilitado hasta que ambos selectores tienen valor.
+5. Al enviar el formulario, `calculate()` en `app.js` aplica la fórmula correspondiente.
+6. El resultado muestra litros formateados y un detalle con las dimensiones efectivas usadas.
 
 ## Selectores
 
@@ -39,6 +41,8 @@ Macetadora/
 | `rectangular`     | Rectangular    | longitud, anchura, profundidad             |
 | `round`           | Redondo        | diámetro exterior, altura                  |
 | `truncated-cone`  | Cono truncado  | diámetro superior, profundidad             |
+
+**Bloqueo automático:** si el usuario elige Terracota o Plasticforte, este selector se fuerza a `truncated-cone` y se deshabilita. Al volver a "No por defecto" en tipo de maceta, el selector de forma se reactiva.
 
 ### Tipo de maceta (`#potTypeSelect`)
 
@@ -115,6 +119,7 @@ Una versión anterior aplicaba erróneamente el 63% como diámetro interior úni
 
 | Función                 | Responsabilidad                                      |
 |-------------------------|------------------------------------------------------|
+| `syncShapeLock()`       | Fija forma en cono truncado y bloquea selector si hay tipo de maceta |
 | `renderInputFields()`   | Genera HTML de inputs según forma y tipo             |
 | `parsePositiveNumber()` | Lee input numérico; rechaza ≤ 0 o NaN                |
 | `getInteriorDiameter()` | Cilindro: exterior real + diámetro interior          |
@@ -128,6 +133,7 @@ Una versión anterior aplicaba erróneamente el 63% como diámetro interior úni
 
 - **Bootstrap 5.3.3** vía jsDelivr CDN (grid, formularios, utilidades).
 - **Fuente:** Nunito (Google Fonts).
+- **Favicon / logo:** `favicon.png` en la raíz; usado como `<link rel="icon">` y como imagen dentro de `.logo-badge` (animación `float`).
 - **Tema kawaii:** pasteles (rosa `#ffb7c5`, menta `#b8e8d4`), bordes redondeados, animación flotante en logo, gradientes suaves.
 - Clases custom prefijadas con `kawaii-` en `styles.css`.
 - Emojis como iconografía (sin librería de iconos externa).

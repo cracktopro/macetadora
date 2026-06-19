@@ -41,6 +41,20 @@
     calcBtn.disabled = !canCalculate();
   }
 
+  function syncShapeLock() {
+    const potType = getSelectedPotType();
+    const lockShape = potType === 'terracota' || potType === 'plasticforte';
+
+    if (lockShape) {
+      shapeSelect.value = 'truncated-cone';
+      shapeSelect.disabled = true;
+      shapeSelect.classList.add('kawaii-select-locked');
+    } else {
+      shapeSelect.disabled = false;
+      shapeSelect.classList.remove('kawaii-select-locked');
+    }
+  }
+
   function createInputField(id, label, icon, placeholder) {
     return `
       <div class="col-sm-6 field-row">
@@ -266,6 +280,7 @@
   }
 
   function onSelectionChange() {
+    syncShapeLock();
     updateCalcButton();
     renderInputFields();
     hideResult();
