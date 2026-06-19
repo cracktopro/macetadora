@@ -1,0 +1,302 @@
+:root {
+  --kawaii-pink: #ffb7c5;
+  --kawaii-pink-dark: #ff8fab;
+  --kawaii-mint: #b8e8d4;
+  --kawaii-mint-dark: #7dcea0;
+  --kawaii-cream: #fff8f0;
+  --kawaii-lavender: #e8d5f2;
+  --kawaii-text: #5c4d56;
+  --kawaii-text-light: #8a7a82;
+  --kawaii-shadow: rgba(255, 143, 171, 0.18);
+  --kawaii-radius: 1.25rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  color: var(--kawaii-text);
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.page-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(255, 183, 197, 0.35) 0%, transparent 45%),
+    radial-gradient(circle at 85% 75%, rgba(184, 232, 212, 0.4) 0%, transparent 45%),
+    radial-gradient(circle at 50% 50%, rgba(232, 213, 242, 0.25) 0%, transparent 60%),
+    linear-gradient(160deg, #fff8f0 0%, #ffeef3 50%, #f0faf4 100%);
+}
+
+.logo-badge {
+  width: 72px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  background: linear-gradient(135deg, var(--kawaii-pink) 0%, var(--kawaii-mint) 100%);
+  border-radius: 50%;
+  box-shadow: 0 8px 24px var(--kawaii-shadow);
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+.app-title {
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 2.75rem);
+  background: linear-gradient(135deg, var(--kawaii-pink-dark), var(--kawaii-mint-dark));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+
+.app-subtitle {
+  color: var(--kawaii-text-light);
+  font-size: 1.05rem;
+  font-weight: 600;
+}
+
+.kawaii-card {
+  border: 2px solid rgba(255, 183, 197, 0.35);
+  border-radius: var(--kawaii-radius);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+}
+
+.kawaii-label {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--kawaii-text);
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.label-icon {
+  font-size: 1.1rem;
+}
+
+.kawaii-select,
+.kawaii-input {
+  border: 2px solid rgba(184, 232, 212, 0.6);
+  border-radius: 0.85rem;
+  padding: 0.65rem 1rem;
+  font-weight: 600;
+  color: var(--kawaii-text);
+  background-color: #fff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.kawaii-select:focus,
+.kawaii-input:focus {
+  border-color: var(--kawaii-pink);
+  box-shadow: 0 0 0 0.2rem rgba(255, 143, 171, 0.25);
+}
+
+.kawaii-input-group {
+  position: relative;
+}
+
+.kawaii-input-group .input-suffix {
+  position: absolute;
+  right: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--kawaii-text-light);
+  font-weight: 700;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+.kawaii-input-group .kawaii-input {
+  padding-right: 3rem;
+}
+
+.placeholder-hint {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1.25rem;
+  background: rgba(232, 213, 242, 0.2);
+  border-radius: 0.85rem;
+  border: 2px dashed rgba(184, 232, 212, 0.5);
+}
+
+.hint-icon {
+  font-size: 1.1rem;
+}
+
+.pot-info-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--kawaii-text-light);
+  background: rgba(255, 183, 197, 0.15);
+  padding: 0.35rem 0.75rem;
+  border-radius: 2rem;
+  margin-top: 0.5rem;
+}
+
+.btn-kawaii {
+  background: linear-gradient(135deg, var(--kawaii-pink-dark) 0%, #ff6b9d 100%);
+  border: none;
+  border-radius: 0.85rem;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  padding: 0.85rem 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s, opacity 0.2s;
+  box-shadow: 0 6px 20px rgba(255, 107, 157, 0.35);
+}
+
+.btn-kawaii:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(255, 107, 157, 0.45);
+  color: #fff;
+  background: linear-gradient(135deg, #ff6b9d 0%, var(--kawaii-pink-dark) 100%);
+}
+
+.btn-kawaii:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.btn-kawaii:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.btn-icon {
+  margin-right: 0.35rem;
+}
+
+.result-panel {
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale(0.92) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.result-inner {
+  background: linear-gradient(135deg, rgba(184, 232, 212, 0.35) 0%, rgba(255, 183, 197, 0.25) 100%);
+  border-radius: var(--kawaii-radius);
+  padding: 1.75rem 1.5rem;
+  border: 2px solid rgba(125, 206, 160, 0.4);
+}
+
+.result-icon {
+  font-size: 2rem;
+  margin-bottom: 0.25rem;
+}
+
+.result-label {
+  font-weight: 700;
+  color: var(--kawaii-text-light);
+  font-size: 0.95rem;
+}
+
+.result-value {
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  font-weight: 800;
+  color: var(--kawaii-mint-dark);
+  line-height: 1.1;
+}
+
+.result-unit {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--kawaii-text-light);
+  margin-left: 0.25rem;
+}
+
+.result-detail {
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+.formula-hints {
+  text-align: center;
+}
+
+.kawaii-details {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.7);
+  border: 2px solid rgba(184, 232, 212, 0.4);
+  border-radius: 0.85rem;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--kawaii-text-light);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.kawaii-details:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.kawaii-details summary {
+  list-style: none;
+  user-select: none;
+}
+
+.kawaii-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.kawaii-details ul {
+  text-align: left;
+  padding-left: 1.25rem;
+}
+
+.footer-text {
+  font-size: 0.85rem;
+  color: var(--kawaii-text-light);
+  font-weight: 600;
+}
+
+.field-row {
+  animation: fadeSlide 0.3s ease;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 576px) {
+  .kawaii-card .card-body {
+    padding: 1.5rem !important;
+  }
+}
