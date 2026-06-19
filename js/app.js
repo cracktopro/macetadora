@@ -4,13 +4,19 @@
   const PI = Math.PI;
 
   const POT_TYPES = {
+    standard: {
+      name: 'Maceta estándar',
+      usesAdjustments: false
+    },
     terracota: {
       name: 'Macetas Terracota',
+      usesAdjustments: true,
       exteriorFactor: 0.875,
       interiorFactor: 0.63
     },
     plasticforte: {
       name: 'Macetas decorativas (Plasticforte)',
+      usesAdjustments: true,
       exteriorFactor: 1,
       interiorFactor: 0.656
     }
@@ -33,6 +39,10 @@
     return potTypeSelect.value;
   }
 
+  function isBrandPot(potType) {
+    return potType === 'terracota' || potType === 'plasticforte';
+  }
+
   function canCalculate() {
     return getSelectedShape() !== '' && getSelectedPotType() !== '';
   }
@@ -43,7 +53,7 @@
 
   function syncShapeLock() {
     const potType = getSelectedPotType();
-    const lockShape = potType === 'terracota' || potType === 'plasticforte';
+    const lockShape = isBrandPot(potType);
 
     if (lockShape) {
       shapeSelect.value = 'truncated-cone';
@@ -97,10 +107,17 @@
       fieldsHtml += createInputField('width', 'Anchura', '↔️', 'Ej: 30');
       fieldsHtml += createInputField('depth', 'Profundidad', '⬇️', 'Ej: 25');
     } else if (shape === 'truncated-cone') {
-      fieldsHtml += createInputField('diameter', 'Diámetro superior', '⭕', 'Ej: 70');
-      fieldsHtml += createInputField('height', 'Profundidad', '⬇️', 'Ej: 51,5');
+      if (potType === 'standard') {
+        fieldsHtml += createInputField('diameter', 'Diámetro superior', '⭕', 'Ej: 60,9');
+        fieldsHtml += createInputField('bottomDiameter', 'Diámetro inferior', '⭕', 'Ej: 38,3');
+        fieldsHtml += createInputField('height', 'Profundidad', '⬇️', 'Ej: 51,5');
+      } else {
+        fieldsHtml += createInputField('diameter', 'Diámetro superior', '⭕', 'Ej: 70');
+        fieldsHtml += createInputField('height', 'Profundidad', '⬇️', 'Ej: 51,5');
+      }
     } else {
-      fieldsHtml += createInputField('diameter', 'Diámetro exterior', '⭕', 'Ej: 40');
+      const diameterLabel = potType === 'standard' ? 'Diámetro' : 'Diámetro exterior';
+      fieldsHtml += createInputField('diameter', diameterLabel, '⭕', 'Ej: 40');
       fieldsHtml += createInputField('height', 'Altura', '⬇️', 'Ej: 35');
     }
 
@@ -169,20 +186,50 @@
       return { error: 'Introduce diámetro y altura válidos (mayores que 0).' };
     }
 
+    if (potType === 'standard') {
+      const radius = diameter / 2;
+      const volumeCm3 = PI * radius * radius * height;
+      const detail = `Diámetro: ${diameter} cm · Altura: ${height} cm`;
+      return { volumeCm3, detail };
+    }
+
     const { realExterior, interior } = getInteriorDiameter(diameter, potType);
     const radius = interior / 2;
     const volumeCm3 = PI * radius * radius * height;
-
     const detail = buildRoundDetail(diameter, realExterior, interior, height, potType);
 
     return { volumeCm3, detail };
   }
 
   function calculateTruncatedCone(potType) {
-    const diameter = parsePositiveNumber('diameter');
     const height = parsePositiveNumber('height');
 
-    if (diameter === null || height === null) {
+    if (height === null) {
+      return { error: 'Introduce una profundidad válida (mayor que 0).' };
+    }
+
+    if (potType === 'standard') {
+      const topDiameter = parsePositiveNumber('diameter');
+      const bottomDiameter = parsePositiveNumber('bottomDiameter');
+
+      if (topDiameter === null || bottomDiameter === null) {
+        return {
+          error: 'Introduce diámetro superior e inferior válidos (mayores que 0).'
+        };
+      }
+
+      const volumeCm3 = truncatedConeVolume(topDiameter, bottomDiameter, height);
+      const detail =
+        `Diámetro superior: ${topDiameter} cm · ` +
+        `Diámetro inferior: ${bottomDiameter} cm · ` +
+        `Profundidad: ${height} cm`;
+
+      return { volumeCm3, detail };
+    }
+
+    const diameter = parsePositiveNumber('diameter');
+
+    if (diameter === null) {
       return { error: 'Introduce diámetro superior y profundidad válidos (mayores que 0).' };
     }
 

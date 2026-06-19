@@ -25,9 +25,9 @@ Macetadora/
 
 ## Flujo de la aplicación
 
-1. El usuario elige **forma del contenedor** y **tipo de maceta** (ambos obligatorios; valor por defecto: "No por defecto").
-2. **Al seleccionar un tipo de maceta** (Terracota o Plasticforte), la forma se fija automáticamente en **Cono truncado** y el selector de forma queda **bloqueado** (`syncShapeLock()` en `app.js`). Los tipos actuales solo usan esa geometría.
-3. Al seleccionar ambos, se renderizan campos de entrada dinámicos según la forma.
+1. El usuario elige **forma del contenedor** y **tipo de maceta** (ambos obligatorios; placeholder: "Selecciona una opción").
+2. **Al seleccionar Terracota o Plasticforte**, la forma se fija en **Cono truncado** y el selector de forma queda **bloqueado** (`syncShapeLock()` / `isBrandPot()`). Con **Maceta estándar**, el usuario elige libremente la forma.
+3. Al seleccionar ambos, se renderizan campos de entrada dinámicos según forma **y** tipo.
 4. El botón "Calcular capacidad" permanece deshabilitado hasta que ambos selectores tienen valor.
 5. Al enviar el formulario, `calculate()` en `app.js` aplica la fórmula correspondiente.
 6. El resultado muestra litros formateados y un detalle con las dimensiones efectivas usadas.
@@ -36,22 +36,38 @@ Macetadora/
 
 ### Forma del contenedor (`#shapeSelect`)
 
-| Valor interno     | Etiqueta UI    | Campos de entrada                          |
-|-------------------|----------------|--------------------------------------------|
-| `rectangular`     | Rectangular    | longitud, anchura, profundidad             |
-| `round`           | Redondo        | diámetro exterior, altura                  |
-| `truncated-cone`  | Cono truncado  | diámetro superior, profundidad             |
+Campos según forma **y** tipo de maceta (ver tabla en tipo de maceta).
 
-**Bloqueo automático:** si el usuario elige Terracota o Plasticforte, este selector se fuerza a `truncated-cone` y se deshabilita. Al volver a "No por defecto" en tipo de maceta, el selector de forma se reactiva.
+| Valor interno     | Etiqueta UI    |
+|-------------------|----------------|
+| `rectangular`     | Rectangular    |
+| `round`           | Redondo        |
+| `truncated-cone`  | Cono truncado  |
+
+**Bloqueo automático:** solo con Terracota o Plasticforte → se fuerza `truncated-cone` y se deshabilita el selector. Con Maceta estándar o placeholder, el selector permanece libre.
 
 ### Tipo de maceta (`#potTypeSelect`)
 
-| Valor interno  | Etiqueta UI                              | Factores (en `POT_TYPES`)     |
-|----------------|------------------------------------------|-------------------------------|
-| `terracota`    | Macetas Terracota                        | `exteriorFactor: 0.875`, `interiorFactor: 0.63` |
-| `plasticforte` | Macetas decorativas (Plasticforte)       | `exteriorFactor: 1`, `interiorFactor: 0.656`    |
+| Valor interno  | Etiqueta UI                              | Ajustes | Selector forma |
+|----------------|------------------------------------------|---------|----------------|
+| `standard`     | Maceta estándar                          | Ninguno | Libre          |
+| `terracota`    | Macetas Terracota                        | Sí      | Bloqueado → cono |
+| `plasticforte` | Macetas decorativas (Plasticforte)       | Sí      | Bloqueado → cono |
 
-Los factores están centralizados en el objeto `POT_TYPES` al inicio de `js/app.js`. **Modificar ahí** si cambian las proporciones de un tipo de maceta.
+Factores de marca en `POT_TYPES` (`usesAdjustments: true`):
+
+- **Terracota:** `exteriorFactor: 0.875`, `interiorFactor: 0.63`
+- **Plasticforte:** `exteriorFactor: 1`, `interiorFactor: 0.656`
+
+### Campos de entrada por combinación
+
+| Forma          | Maceta estándar                          | Terracota / Plasticforte        |
+|----------------|------------------------------------------|---------------------------------|
+| Rectangular    | longitud, anchura, profundidad           | *(no disponible — forma bloqueada)* |
+| Redondo        | diámetro, altura                         | *(no disponible)*               |
+| Cono truncado  | diámetro superior, diámetro inferior, profundidad | diámetro superior (nominal), profundidad |
+
+Los IDs de input: `length`, `width`, `depth`, `diameter`, `bottomDiameter`, `height`.
 
 ## Fórmulas de volumen
 
@@ -63,8 +79,7 @@ Todas las dimensiones en **cm**. Volumen en **cm³**, luego convertido a litros.
 volumen = profundidad × longitud × anchura
 ```
 
-- **No aplica** ajustes de tipo de maceta (Terracota/Plasticforte).
-- El tipo de maceta sigue siendo obligatorio en UI pero no altera el cálculo.
+Solo disponible con **Maceta estándar**. Sin ajustes.
 
 ### Redondo (cilindro)
 
@@ -72,16 +87,9 @@ volumen = profundidad × longitud × anchura
 volumen = π × R² × altura
 ```
 
-Donde `R = diámetro_interior / 2`.
-
-**Diámetro interior** según tipo:
-
-- **Terracota:** `interior = usuario × 0.875 × 0.63`
-  - Primero se obtiene el diámetro exterior real (87,5% del nominal).
-  - Luego el interior útil para tierra (63% del exterior real).
-- **Plasticforte:** `interior = usuario × 0.656`
-  - Sin corrección de diámetro exterior nominal.
-  - Interior = 65,6% del diámetro introducido.
+- **Maceta estándar:** `R = diámetro_usuario / 2` (medidas reales, sin corrección).
+- **Terracota:** `R = (usuario × 0.875 × 0.63) / 2`
+- **Plasticforte:** `R = (usuario × 0.656) / 2`
 
 Funciones clave: `getInteriorDiameter()`, `calculateRound()`.
 
@@ -93,11 +101,10 @@ volumen = (1/3) × π × profundidad × (r² + r×R + R²)
 
 Donde `R = diámetro_superior / 2` y `r = diámetro_inferior / 2`.
 
-**Importante — semántica distinta al cilindro:**
+- **Maceta estándar:** el usuario introduce **ambos diámetros** y la profundidad directamente (sin factores).
+- **Terracota / Plasticforte:** un solo diámetro superior nominal; el inferior se deriva con factores (ver tabla).
 
-En cono truncado, `interiorFactor` **no** representa el diámetro interior de relleno de tierra como en el cilindro. Representa la **proporción entre diámetro inferior y superior** de la maceta.
-
-| Tipo         | Diámetro superior              | Diámetro inferior        |
+| Tipo (marca) | Diámetro superior              | Diámetro inferior        |
 |--------------|--------------------------------|--------------------------|
 | Terracota    | `usuario × 0.875`              | `superior × 0.63`        |
 | Plasticforte | `usuario` (sin ajuste)         | `superior × 0.656`       |
@@ -107,6 +114,11 @@ Funciones clave: `getConeDiameters()`, `truncatedConeVolume()`, `calculateTrunca
 #### Bug histórico corregido
 
 Una versión anterior aplicaba erróneamente el 63% como diámetro interior único y estimaba el inferior con un ratio inventado (`coneBottomRatio: 0.55`), dando volúmenes ~3× menores que calculadoras de referencia. La lógica correcta deriva superior e inferior como en la tabla anterior.
+
+#### Ejemplo de validación (Maceta estándar, cono)
+
+- Entrada: superior **60,9 cm**, inferior **38,3 cm**, profundidad **51,5 cm**
+- Resultado esperado: **~101 L**
 
 #### Ejemplo de validación (Terracota, cono)
 
@@ -119,7 +131,8 @@ Una versión anterior aplicaba erróneamente el 63% como diámetro interior úni
 
 | Función                 | Responsabilidad                                      |
 |-------------------------|------------------------------------------------------|
-| `syncShapeLock()`       | Fija forma en cono truncado y bloquea selector si hay tipo de maceta |
+| `syncShapeLock()`       | Bloquea forma en cono solo para Terracota/Plasticforte (`isBrandPot()`) |
+| `isBrandPot()`          | Indica si el tipo aplica factores y bloqueo de forma                    |
 | `renderInputFields()`   | Genera HTML de inputs según forma y tipo             |
 | `parsePositiveNumber()` | Lee input numérico; rechaza ≤ 0 o NaN                |
 | `getInteriorDiameter()` | Cilindro: exterior real + diámetro interior          |
@@ -164,11 +177,10 @@ Para GitHub Pages: publicar la raíz del repo (contiene `index.html`).
 
 ## Puntos de extensión habituales
 
-1. **Nuevo tipo de maceta:** añadir entrada en `POT_TYPES`; actualizar `syncShapeLock()` si el nuevo tipo también exige cono truncado.
+1. **Nuevo tipo de maceta:** añadir entrada en `POT_TYPES`; actualizar `isBrandPot()` y `syncShapeLock()` si debe bloquear forma o aplicar factores.
 2. **Nueva forma:** nuevo `case` en `calculate()` y rama en `renderInputFields()`.
-3. **Entrada manual de diámetro inferior (cono):** añadir campo opcional; si tiene valor, usarlo en lugar de `getConeDiameters()`.
-4. **Ajustes rectangulares por tipo:** hoy no existen; implementar en `calculateRectangular()` si se requieren.
-5. **Sustituir `alert()` por toast/modal** para errores de validación.
+3. **Ajustes rectangulares por tipo de marca:** hoy no existen; implementar en `calculateRectangular()` si se requieren.
+4. **Sustituir `alert()` por toast/modal** para errores de validación.
 
 ## Dependencias externas (CDN)
 
